@@ -11,11 +11,9 @@ def produzi_modul(modul):
     return 'Primenjene računarske nauke i informatika'
 
 def broj_mesta(modul):
-    if modul == "Računarski upravljački sistemi": 
-        return 10 #128
-    if modul == "Računarska tehnika i računarske komunikacije": 
-        return 10 #128
-    return 10
+    if  'Primenjene računarske nauke i informatika': 
+        return 128
+    return 64
 
 def vrati_filter(request):
     if request.GET and request.GET.get('filter'):

@@ -6,15 +6,23 @@
 
 {% include '_partials/messages.html' %}
 
-<br>
+<br><br><br>
 <center>
     <div id="centar">
         <img class="ui medium image" src= {% static 'img/favicon.png' %}>
-        <h1 style="text-align: center;">Dobrodošli! wow, this is epic</h1>
+        <h1 style="text-align: center;">Dobrodošli!</h1>
     </div>
-</center>
+    <br><br>
 
-<p>Ovde je bas sve epic</p>
+    <p style="font-size:large;">RaDb je web aplikacija koja služi za sortiranje i rangiranje studenata druge godine smera Računarstvo i automatika sa Fakulteta
+        tehničkih nauka u Novom Sadu u odnosu na njihove izabrane module koje žele da pohađaju u trećoj i četvrtoj godini fakulteta.</p>
+    <br>
+    <a href={% url 'about' %}>
+        <div class="ui button green">
+            Saznajte više o projektu
+        </div>
+    </a>
+</center>
 
 
 {% endblock content %}
