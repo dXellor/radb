@@ -112,4 +112,7 @@ def rang_lists(request):
     
     context = {'lprni': lista_prni, 'lrtrk': lista_rtrk, 'lauto': lista_auto, 'user_count': user_count}
     return render(request, 'data/rang-list.html', context)
-    
+
+def support(request):
+
+    return render(request, 'data/support.html')
