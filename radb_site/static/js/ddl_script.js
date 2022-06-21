@@ -9,6 +9,7 @@ function init_ddl2(){
     var mw2_val = $('#MW2').val()
 
     if(selected_value != 'Neopredeljen'){
+
         if((selected_value == mw2_val)){
             $('#MW2').find('option').remove().end().append('<option value="Neopredeljen">Neopredeljen</option>').val('Neopredeljen');
         }else{
@@ -17,7 +18,7 @@ function init_ddl2(){
                 values.splice(index, 1);
             }
         }
-    
+        
         var index = values.indexOf(selected_value);
         if (index !== -1) {
             values.splice(index, 1);
@@ -27,8 +28,14 @@ function init_ddl2(){
             if ( $(this).val() == selected_value ) {
                 $(this).remove();
             }
+
+            // ovo mora da stoji ispod gornjeg if-a
+            index = values.indexOf($(this).val());
+            if (index !== -1) {
+                values.splice(index, 1);
+            }
         });
-        
+
         $(values).each(function() {
             $('#MW2').append($("<option>")
             .prop('value', this)
