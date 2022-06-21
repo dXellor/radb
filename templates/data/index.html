@@ -1,0 +1,20 @@
+{% extends '_partials/base.html'%}
+
+{% load static %}
+
+{% block content %}
+
+{% include '_partials/messages.html' %}
+
+<br>
+<center>
+    <div id="centar">
+        <h1 style="text-align: center;">Dobrodošli!</h1>
+        <img class="ui small image" src= {% static 'img/ra_db_logo.png' %}>
+    </div>
+</center>
+
+<p>Ovde je bas sve epic</p>
+
+
+{% endblock content %}

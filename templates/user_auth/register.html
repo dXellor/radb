@@ -1,0 +1,58 @@
+{% extends '_partials/base.html'%}
+
+{% load static %}
+
+{% block content %}
+{% include '_partials/messages.html'%}
+<br>
+<div class="ui middle aligned center aligned grid">
+<div class="seven wide column">
+    <h2 class="ui teal image header">
+      <img src={% static '/img/ra_db_logo.png' %} class="image">
+      <div class="content" style="color:black;">
+        Korisnička registracija
+      </div>
+    </h2>
+    <form class="ui large form" method="POST" action={% url 'register' %}>
+        {% csrf_token %}
+      <div class="ui stacked segment">
+        <div class="field">
+            <div class="ui left icon input">
+              <i class="user icon"></i>
+              <input type="text" name="first_name" value="{{data.first_name}}" placeholder="Ime">
+            </div>
+        </div>
+        <div class="field">
+            <div class="ui left icon input">
+              <i class="user icon"></i>
+              <input type="text" name="last_name" value="{{data.last_name}}" placeholder="Prezime">
+            </div>
+        </div>
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="mail icon"></i>
+            <input type="text" name="email" value="{{data.email}}" placeholder="UNS E-mail adresa">
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="lock icon"></i>
+            <input type="password" name="password" placeholder="Šifra">
+          </div>
+        </div>
+        <div class="field">
+            <div class="ui left icon input">
+              <i class="lock icon"></i>
+              <input type="password" name="password2" placeholder="Ponovite šifru">
+            </div>
+        </div>
+        <button type="submit" class="ui fluid large green submit button">Registrujte se</button>
+      </div>
+    </form>
+
+    <div class="ui message">
+      Već ste registrovani? <a href={% url 'login' %} style="color: #21ba45;">Ulogujte se</a>
+    </div>
+  </div>
+</div>
+{% endblock content %}

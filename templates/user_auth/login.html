@@ -1,0 +1,45 @@
+{% extends '_partials/base.html' %}
+
+{% load static %}
+
+{% block content %}
+{% include '_partials/messages.html'%}
+<br>
+<div class="ui middle aligned center aligned grid">
+<div class="seven wide column">
+    <h2 class="ui teal image header">
+      <img src={% static '/img/ra_db_logo.png' %} class="image">
+      <div class="content" style="color:black;">
+        Prijava
+      </div>
+    </h2>
+    <form class="ui large form" method="POST" action={% url 'login' %}>
+        {% csrf_token %}
+      <div class="ui stacked segment">
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="mail icon"></i>
+            <input type="text" required name="email" value="{{data.email}}" placeholder="UNS E-mail adresa">
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="lock icon"></i>
+            <input type="password" required name="password" placeholder="Šifra">
+          </div>
+        </div>
+        <button type="submit" class="ui fluid large green submit button">Prijavite se</button>
+      </div>
+    </form>
+
+    <div class="ui message">
+      Nemate nalog? <a href={% url 'register' %} style="color: #21ba45;">Registrujte se</a>
+    </div>
+    {% if not verified %}
+    <div class="ui message">
+      <a href={% url 'request_verif_email_form' %} style="color: #21ba45;">Pošalji aktivacioni email ponovo</a>
+    </div>
+    {% endif %}  
+  </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,87 @@
+{% extends '_partials/base.html'%}
+
+{% load static %}
+
+{% block content %}
+
+{% include '_partials/messages.html' %}
+
+<script src="{% static 'js/ddl_script.js' %}"></script>
+
+<h1>Osnovni podaci</h1>
+<p><b style="font-size: medium;">Ime:</b> {{user.first_name}}</p> 
+<p><b style="font-size: medium;">Prezime:</b> {{user.last_name}}</p> 
+<p><b style="font-size: medium;">Broj indeksa:</b> {{user.indeks}}</p> 
+<p><b style="font-size: medium;">Ostvareni ESPB:</b> {{user.ostvareni_espb}}</p>
+<p><b style="font-size: medium;">Prosek:</b> 
+    {% if user.prosek != 5.00 %}
+    {{user.prosek}}
+    {% else %}
+    -
+    {%endif%}
+</p><br>
+<hr style="border: 0; border-top: 2px solid #21ba45;">
+<h1>Moduli</h1>
+<form  method="POST" action={% url 'update_zelje' %}>
+    {% csrf_token %}
+    <p><b style="font-size: medium;">Prva želja za modul:</b>
+        <select id="MW1" class="ui selection dropdown" name="modul_wish1">
+            <option value="{{user.modul_prva_zelja}}">{{user.modul_prva_zelja}}</option>
+        </select>
+    </p>
+    <p><b style="font-size: medium;">Druga želja za modul:</b>
+        <select id="MW2" class="ui selection dropdown" name="modul_wish2">
+            <option value="{{user.modul_druga_zelja}}">{{user.modul_druga_zelja}}</option>
+        </select>
+    </p><br>
+    <div class="ui checkbox" data-tooltip="Ne prikazuj broj indeksa, ime i prezime na rang listama">
+        <input type="checkbox" name="ishidden"
+        {% if user.hidden %}
+        checked
+        {% else %}
+        {% endif %}
+        >
+        <label>Sakrij moje informacije na rang listama</label>
+    </div>
+    <br><br>
+    <input type="submit" class="ui green button" value="Ažuriraj želje">
+</form>
+<br><br>
+<hr style="border: 0; border-top: 2px solid #21ba45;">
+<h1>Indeks</h1>
+<form class="ui form" method='POST' action={% url 'profile'%}>
+    {% csrf_token %}
+    <center><input type="submit" class="ui green button" value="Ažuriraj ocene"></center><br>
+    <div class="ui container">
+        <table class="ui celled table">
+            <thead>
+                <tr>
+                    <th>Naziv predmeta</th>
+                    <th>ESPB</th>
+                    <th>Ocena</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for item in items %}
+                    <tr>
+                        <td>{{item.predmet_id}}</td>
+                        <td><b>{{item.predmet_id.ESPB}}</b></td>
+                        <td><input type="number" name="{{item.predmet_id.pk}}" min="5" max="10" 
+                            {% if item.ocena != 5 %}
+                            value="{{item.ocena}}"
+                            {% else %}
+                            placeholder="5"
+                            {% endif %}
+                            ></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <br>
+
+        <center><input type="submit" class="ui green button" value="Ažuriraj ocene"></center><br><br>
+    </div>
+</form>
+
+{% endblock content %}

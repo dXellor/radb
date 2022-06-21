@@ -1,0 +1,139 @@
+{% extends '_partials/base.html'%}
+
+{% load static %}
+
+{% block content %}
+
+<script src="{% static 'js/rang_list.js' %}"></script>
+
+<h1 class="">Rang liste modula</h1>
+<p><b style="font-size: medium;">Student:</b> {{user.first_name}} {{user.last_name}} {{user.indeks}}</p> 
+<p><b style="font-size: medium;">Vaš rezultat: </b><spam {% if user.modul_score == 0 %}style="color: red;"{% else %}{% endif %}>{{user.modul_score}}</spam></p> 
+<p><b style="font-size: medium;">Upali ste na vašu: <spam style="color: blue;">
+    {% if user.modul_prva_zelja == 'Neopredeljen' or user.modul_druga_zelja == 'Neopredeljen' %}
+    <span style="color: red">Opredelite se za obe želje!</span>
+    {% elif user.upao_na_prvu_zelju %}
+    PRVU ŽELJU
+    {% elif user.upao_na_drugu_zelju %}
+    DRUGU ŽELJU
+    {% else %}
+    <span style="color: red">Treću želju</span>
+    {% endif %} 
+    </spam></b></p>
+<br>
+<hr style="border: 0; border-top: 2px solid #21ba45;">
+<br>
+<p><b style="font-size: medium;">*Ukupno registrovanih studenata: <spam style="color: #21ba45;">{{user_count}}</spam></b></p>
+<p><b style="font-size: medium;">*Na tabelama su rangirani samo studenti po prvoj i drugoj želji, ako ste svrstani u treću mesto vam je nebitno</b></p>
+<p><b style="font-size: medium;">*Test broj mesta: <spam style="color: red;">PRNI: 10, RTRK: 10, RUS: 10</spam></b></p>
+<div class="ui green three item menu">
+    <a id="btn_prni" class="item active">Primenjene računarske nauke i informatika</a>
+    <a id="btn_auto" class="item">Računarski upravljački sistemi</a>
+    <a id="btn_rtrk" class="item">Računarska tehnika i računarske komunikacije</a>
+</div><br>
+
+<div class="ui container" id="prni" style="display: none;">
+    <table class="ui green celled table">
+        <thead>
+            <tr>
+                <th class="one wide column" style="text-align: right;">Redni broj</th>
+                <th class="two wide column">Broj indeksa</th>
+                <th class="five wide column">Ime i prezime studenta</th>
+                <th class="one wide column" style="text-align: center;">ESPB</th>
+                <th class="two wide column" style="text-align: center;">Prosek</th>
+                <th class="two wide column" style="text-align: center;">Želja</th>
+                <th style="text-align: center;">Konačni rezultat</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for item in lprni %}
+                <tr {% if user.indeks == item.indeks %} style="color: blue;"{% endif %}>
+                    <td style="text-align: right;">{{ forloop.counter }}</td>
+                    {% if item.hidden %}
+                    <td style="text-align: left;">RA_X</td>
+                    <td>Sakriveni korisnik</td>
+                    {% else %}
+                    <td style="text-align: left;">{{ item.indeks }}</td>
+                    <td>{{ item.first_name }} {{ item.last_name }}</td>
+                    {% endif %}
+                    <td style="text-align: center;">{{ item.ostvareni_espb }}</td>
+                    <td style="text-align: center;">{{ item.prosek }}</td>
+                    <td style="text-align: center;">{% if item.upao_na_prvu_zelju %}Prva{% elif item.upao_na_drugu_zelju %}Druga{% endif %}</td>
+                    <td style="text-align: center;">{{ item.modul_score }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<div class="ui container" id="rtrk" style="display: none;">
+    <table class="ui green celled table">
+        <thead>
+            <tr>
+                <th class="one wide column" style="text-align: right;">Redni broj</th>
+                <th class="two wide column">Broj indeksa</th>
+                <th class="five wide column">Ime i prezime studenta</th>
+                <th class="one wide column" style="text-align: center;">ESPB</th>
+                <th class="two wide column" style="text-align: center;">Prosek</th>
+                <th class="two wide column" style="text-align: center;">Želja</th>
+                <th style="text-align: center;">Konačni rezultat</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for item in lrtrk %}
+                <tr {% if user.indeks == item.indeks %} style="color: blue;"{% endif %}>
+                    <td style="text-align: right;">{{ forloop.counter }}</td>
+                    {% if item.hidden %}
+                    <td style="text-align: left;">RA_X</td>
+                    <td>Sakriveni korisnik</td>
+                    {% else %}
+                    <td style="text-align: left;">{{ item.indeks }}</td>
+                    <td>{{ item.first_name }} {{ item.last_name }}</td>
+                    {% endif %}
+                    <td style="text-align: center;">{{ item.ostvareni_espb }}</td>
+                    <td style="text-align: center;">{{ item.prosek }}</td>
+                    <td style="text-align: center;">{% if item.upao_na_prvu_zelju %}Prva{% elif item.upao_na_drugu_zelju %}Druga{% endif %}</td>
+                    <td style="text-align: center;">{{ item.modul_score }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<div class="ui container" id="auto" style="display: none;">
+    <table class="ui green celled table">
+        <thead>
+            <tr>
+                <th class="one wide column" style="text-align: right;">Redni broj</th>
+                <th class="two wide column">Broj indeksa</th>
+                <th class="five wide column">Ime i prezime studenta</th>
+                <th class="one wide column" style="text-align: center;">ESPB</th>
+                <th class="two wide column" style="text-align: center;">Prosek</th>
+                <th class="two wide column" style="text-align: center;">Želja</th>
+                <th style="text-align: center;">Konačni rezultat</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for item in lauto %}
+                <tr {% if user.indeks == item.indeks %} style="color: blue;"{% endif %}>
+                    <td style="text-align: right;">{{ forloop.counter }}</td>
+                    {% if item.hidden %}
+                    <td style="text-align: left;">RA_X</td>
+                    <td>Sakriveni korisnik</td>
+                    {% else %}
+                    <td style="text-align: left;">{{ item.indeks }}</td>
+                    <td>{{ item.first_name }} {{ item.last_name }}</td>
+                    {% endif %}
+                    <td style="text-align: center;">{{ item.ostvareni_espb }}</td>
+                    <td style="text-align: center;">{{ item.prosek }}</td>
+                    <td style="text-align: center;">{% if item.upao_na_prvu_zelju %}Prva{% elif item.upao_na_drugu_zelju %}Druga{% endif %}</td>
+                    <td style="text-align: center;">{{ item.modul_score }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<br><br><br><br>
+
+{% endblock content %}

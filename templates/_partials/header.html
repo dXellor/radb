@@ -1,0 +1,32 @@
+{%load static %}
+
+
+<div class="ui menu">
+    <div class="ui container">
+
+        <a href={% url 'home' %} class="header item">
+            <img class="logo" src= {% static 'img/ra_db_logo.png' %}>
+        </a>
+        <a href={% url 'home' %} class="header item">Početna</a>
+        <a href={% url 'about' %} class="header item">O projektu</a>
+        {% if user.is_authenticated %}
+        <a href={% url 'profile' %} class="header item">Profil</a>
+        <a href={% url 'rang-lists' %} class="header item">Liste</a>
+        {% else %}
+        {% endif %}
+    
+        <div class="right item">
+            {% if user.is_authenticated %}
+            <div class="ui simple dropdown" style="color: #21ba45;">
+                {{request.user.indeks}}  <i class="dropdown icon"></i>
+               <div class="menu">
+                <a href={% url 'logout_user' %} class="header item"><b>Odjavi se</b></a>
+               </div>
+             </div>
+            {% else %}
+            <a href={% url 'login' %} class="header item" style="color: #21ba45;">Prijava</a>
+            <a href={% url 'register' %} class="header item" style="color: #21ba45;">Registracija</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
