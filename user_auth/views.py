@@ -44,6 +44,22 @@ def send_verif_email(user, request):
 
     mailThread(email_message).start()
 
+def send_pwd_reset_email(user, request):
+    current_site = get_current_site(request)
+    subject = "Zahtev za novu lozinku"
+    body = render_to_string('user_auth/passwordresetemail.html', {
+        'user': user,
+        'domain': current_site,
+        'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+        'token': generate_token.make_token(user)
+        })
+
+    email_message = EmailMessage(subject=subject, body=body,
+                                from_email=settings.EMAIL_FROM_USER,
+                                to=[user.email])
+
+    mailThread(email_message).start()
+
 @deny_for_logged_in
 def login_user(request):
 
@@ -186,4 +202,62 @@ def request_verif_email_form(request):
             return redirect(reverse('login'))
 
     return render(request, 'user_auth/request_verification_email.html')
+
+@deny_for_logged_in
+def request_password_reset_form(request):
+
+    if request.method == "POST":
+        context = {'data': request.POST}
+        email = request.POST.get('email')
+        user = User.objects.filter(email=email)
+
+        if not user:
+            messages.add_message(request, messages.ERROR, 'Email koji ste uneli ne pripada nijednom registrovanom nalogu')
+            return render(request, 'user_auth/request_verification_email.html', context)
+        else:
+            send_pwd_reset_email(user[0], request)
+            messages.add_message(request, messages.INFO, 'Na Vaš email je poslat link za resetovanje lozinke. Proverite Vaš inbox.')
+            return redirect(reverse('login'))
+
+    return render(request, 'user_auth/pwdreset.html')
+
+@deny_for_logged_in
+def reset_password(request, uidb64, token):
+
+    context = {'error': False, 'uid': uidb64, 'tkn': token}
+
+    if request.method == 'POST':
+        password = request.POST.get('password')
+        password2 = request.POST.get('password2')
+
+        if len(password) < 6:
+            messages.add_message(request, messages.ERROR, 'Šifra mora da bude barem 6 karaktera dugačka')
+            context['error'] = True
+
+        if password!=password2:
+            messages.add_message(request, messages.ERROR, 'Šifre se ne poklapaju')
+            context['error'] = True
+
+        if context['error']:
+            render(request, 'user_auth/pwdreset_form.html', context)
+        else:
+            try:
+                uid = force_str(urlsafe_base64_decode(uidb64))
+                user = User.objects.get(pk=uid)
+
+            except Exception as e:
+                user = None
+
+            if user:
+                if generate_token.check_token(user, token):
+                    user.set_password(password)
+                    user.save()
+
+                    messages.add_message(request, messages.SUCCESS, 'Vaša lozinka je uspešno promenjena.')
+                    return redirect(reverse('login'))
+                else:
+                    messages.add_message(request, messages.ERROR, 'Vaša lozinka nije uspešno promenjena.')
+                    return redirect(reverse('login'))
+
+    return render(request, 'user_auth/pwdreset_form.html', context)
 

@@ -25,7 +25,7 @@
         <div class="field">
           <div class="ui left icon input">
             <i class="lock icon"></i>
-            <input type="password" required name="password" placeholder="Šifra">
+            <input type="password" required name="password" placeholder="Lozinka">
           </div>
         </div>
         <button type="submit" class="ui fluid large green submit button">Prijavite se</button>
@@ -34,6 +34,9 @@
 
     <div class="ui message">
       Nemate nalog? <a href={% url 'register' %} style="color: #21ba45;">Registrujte se</a>
+    </div>
+    <div class="ui message">
+      <a href={% url 'request_password_reset_form' %} style="color: #21ba45;">Zaboravio sam lozinku</a>
     </div>
     {% if not verified %}
     <div class="ui message">
