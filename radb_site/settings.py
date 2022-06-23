@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-zp=3d+n%e(es82z!+q7q7o_fzfcl)j85*rl$@#2@@%c_+j8)_5
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['radb-dx.herokuapp.com/', 'www.radb-dx.herokuapp.com/']
+ALLOWED_HOSTS = ['radb-dx.herokuapp.com', 'www.radb-dx.herokuapp.com']
 
 AUTH_USER_MODEL = "user_auth.User"
 LOGIN_URL = "/user_auth/login"
