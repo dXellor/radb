@@ -26,7 +26,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*'] #, '192.168.1.4', 'localhost'
+ALLOWED_HOSTS = ['radb-dx.herokuapp.com/', 'www.radb-dx.herokuapp.com/']
 
 AUTH_USER_MODEL = "user_auth.User"
 LOGIN_URL = "/user_auth/login"
