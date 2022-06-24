@@ -91,6 +91,8 @@ def update_zelje(request):
 def rang_lists(request):
     all_users = User.objects.all()
     user_count = all_users.count()
+    user_count2 = all_users.filter(is_verified=True, prosek__gt=5.00).exclude(modul_prva_zelja='Neopredeljen').count()
+    print(user_count2)
     lista_prni = []
     lista_rtrk = []
     lista_auto = []
@@ -110,7 +112,7 @@ def rang_lists(request):
         lista_rtrk = returnList(request, all_users, 'rtrk', True)
         lista_prni = returnList(request, all_users, 'prni', True)
     
-    context = {'lprni': lista_prni, 'lrtrk': lista_rtrk, 'lauto': lista_auto, 'user_count': user_count}
+    context = {'lprni': lista_prni, 'lrtrk': lista_rtrk, 'lauto': lista_auto, 'user_count': user_count2}
     return render(request, 'data/rang-list.html', context)
 
 def support(request):
